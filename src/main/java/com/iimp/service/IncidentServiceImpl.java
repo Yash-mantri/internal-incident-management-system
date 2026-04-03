@@ -72,7 +72,7 @@ public class IncidentServiceImpl implements IncidentService {
 			"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-	private static final long MAX_FILE_SIZE = 10 * 1024 * 1024L; // 10 MB
+	private static final long MAX_FILE_SIZE = 10 * 1024 * 1024L; 
 	private static final int MAX_FILES = 5;
 
 	@Override
@@ -91,7 +91,7 @@ public class IncidentServiceImpl implements IncidentService {
 		LocalDateTime slaDueAt = businessHoursCalc.calcDeadline(
 				LocalDateTime.now(),
 				sla.getResolutionTimeHours(),
-				null  // assignee unknown at creation — no leave skip yet
+				null  
 		);
 		
 		Incident incident = Incident.builder().incidentKey(incidentKey).title(req.getTitle())
@@ -333,7 +333,7 @@ public class IncidentServiceImpl implements IncidentService {
 		case SUPPORT_STAFF -> current == IncidentStatus.IN_PROGRESS && newStatus == IncidentStatus.RESOLVED;
 		case MANAGER -> (current == IncidentStatus.RESOLVED && newStatus == IncidentStatus.CLOSED)
 				|| (current == IncidentStatus.RESOLVED && newStatus == IncidentStatus.IN_PROGRESS);
-		case ADMIN -> current != IncidentStatus.CLOSED; // Admin can do any except re-open closed
+		case ADMIN -> current != IncidentStatus.CLOSED; 
 		case EMPLOYEE -> (current == IncidentStatus.RESOLVED && newStatus == IncidentStatus.CLOSED)
 				|| (current == IncidentStatus.RESOLVED && newStatus == IncidentStatus.IN_PROGRESS);
 		default -> throw new IllegalArgumentException("Unexpected value: " + user.getRole());
@@ -475,7 +475,7 @@ public class IncidentServiceImpl implements IncidentService {
 	@Override
 	@Transactional
 	public boolean recategorizeIncident(String username, String id, @Valid IncidentDtos.Recategorize req) {
-		// TODO Auto-generated method stub
+		
 		Incident incident = findIncidentById(id);
 		Category category = categoryRepository.findById(req.getCategoryId()).get();
 		incident.setCategory(category);
@@ -484,7 +484,7 @@ public class IncidentServiceImpl implements IncidentService {
 	}
 
 	@Override
-	public ReportSummaryDTO getSummary() { // CHANGES
+	public ReportSummaryDTO getSummary() { 
 		long onTime = incidentRepository.countResolvedOnTime();
 		long total = incidentRepository.countResolvedWithSla();
 		long breached = incidentRepository.countBreached(LocalDateTime.now());
@@ -501,7 +501,7 @@ public class IncidentServiceImpl implements IncidentService {
 	}
 
 	@Override
-	public List<CategoryBreakdown> getCatgeoryBreakdown() { // CHANGES
+	public List<CategoryBreakdown> getCatgeoryBreakdown() { 
 		return incidentRepository.countGroupedByDepartment().stream().map(row -> {
 			CategoryBreakdown cat = new CategoryBreakdown();
 			cat.setLabel((String) row[0]);
@@ -518,26 +518,26 @@ public class IncidentServiceImpl implements IncidentService {
 		List<IncidentAudit> auditLog = auditRepository.findByIncident_IncidentKey(id);
 		return auditLog.stream()
 				.map(a -> AuditResponse.builder().id(a.getId()).action(a.getAction()).oldValue(a.getOldValue())
-						.newValue(a.getNewValue()).changedBy(user.getId()) // user id
-						.changedByName(user.getName()) // user name
+						.newValue(a.getNewValue()).changedBy(user.getId())
+						.changedByName(user.getName()) 
 						.createdAt(a.getCreatedAt()).build())
 				.toList();
 	}
 
 	@Override
 	public List<CommentDtos.CommentDTO> getComments(String email, String incidentKey) {
-		User user = findUserByEmail(email); // 🔥 ADD THIS
+		User user = findUserByEmail(email); 
 
 		List<IncidentComment> comments = commentRepository.findByIncident_IncidentKey(incidentKey);
 
 		return comments.stream()
-				// 🔥 IMPORTANT FILTER
+				
 				.filter(c -> {
-					// public comment → everyone can see
+					
 					if (!c.isInternal())
 						return true;
 
-					// internal comment → only admin/manager/support
+					
 					return user.getRole() == Role.ADMIN || user.getRole() == Role.MANAGER
 							|| user.getRole() == Role.SUPPORT_STAFF;
 				})
@@ -560,7 +560,7 @@ public class IncidentServiceImpl implements IncidentService {
 		long inProgress = incidentRepository.countByCreatedBy_EmailAndStatus(email, IncidentStatus.IN_PROGRESS);
 		long resolved = incidentRepository.countByCreatedBy_EmailAndStatus(email, IncidentStatus.RESOLVED);
 		long closed = incidentRepository.countByCreatedBy_EmailAndStatus(email, IncidentStatus.CLOSED);
-//		long breached = incidentRepository.countCreatedBy_EmailAndBreached(email,LocalDateTime.now());
+
 		return IncidentDtos.IncidentStat.builder().totalAll(totalAll).open(open).inProgress(inProgress)
 				.resolved(resolved).closed(closed).build();
 	}
@@ -588,7 +588,7 @@ public class IncidentServiceImpl implements IncidentService {
 
 	@Override
 	public SupportStaffDtos.SupportStaffUnreadNotifications getSupportStaffUnreadNotifications(String email) {
-		// TODO Auto-generated method stub
+		
 		User user = findUserByEmail(email);
 		List<NotificationDtos.NotificationResponse> notifications = notificationService.getUnread(user.getId());
 
