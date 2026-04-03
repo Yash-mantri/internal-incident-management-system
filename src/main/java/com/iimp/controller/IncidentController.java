@@ -54,8 +54,8 @@ public class IncidentController {
 	@GetMapping("/")
 	public ResponseEntity<Page<IncidentDtos.IncidentSummary>> list(@AuthenticationPrincipal UserDetails userDetails,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-		User user = incidentService.findUserByEmail(userDetails.getUsername());
-		return ResponseEntity.ok(incidentService.listIncidents(user.getEmail(), page, size));
+		
+		return ResponseEntity.ok(incidentService.listIncidents(userDetails.getUserName(), page, size));
 	}
 
 	@GetMapping("/me")
