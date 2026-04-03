@@ -115,7 +115,7 @@ public class IncidentController {
 			@AuthenticationPrincipal UserDetails userDetails, @PathVariable String id,
 			@RequestParam("file") MultipartFile file) throws IOException {
 
-		// 🔥 DEBUG
+		
 		System.out.println("Uploading file: " + file.getOriginalFilename());
 
 		return ResponseEntity.status(HttpStatus.CREATED)
