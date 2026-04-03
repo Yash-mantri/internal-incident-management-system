@@ -54,15 +54,13 @@ public class IncidentController {
 	@GetMapping("/")
 	public ResponseEntity<Page<IncidentDtos.IncidentSummary>> list(@AuthenticationPrincipal UserDetails userDetails,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-		
 		return ResponseEntity.ok(incidentService.listIncidents(userDetails.getUserName(), page, size));
 	}
 
 	@GetMapping("/me")
 	public ResponseEntity<List<IncidentDtos.IncidentSummary>> getAllIncidentByUser(
 			@AuthenticationPrincipal UserDetails userDetails) {
-		User user = incidentService.findUserByEmail(userDetails.getUsername());
-		return ResponseEntity.status(HttpStatus.OK).body(incidentService.getIncidentByUser(user.getEmail()));
+		return ResponseEntity.status(HttpStatus.OK).body(incidentService.getIncidentByUser(userDetails.getUsername()));
 	}
 
 	@GetMapping("/{incidentKey}")
@@ -133,14 +131,12 @@ public class IncidentController {
 	@GetMapping("/statistics")
 	@PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
 	public ResponseEntity<IncidentDtos.IncidentStat> stats(@AuthenticationPrincipal UserDetails userDetails) {
-		User user = incidentService.findUserByEmail(userDetails.getUsername());
-		return ResponseEntity.ok(incidentService.incidentStat(user.getEmail()));
+		return ResponseEntity.ok(incidentService.incidentStat(userDetails.getUsername()));
 	}
 
 	@GetMapping("/me/statistics")
 	public ResponseEntity<IncidentDtos.IncidentStat> userStats(@AuthenticationPrincipal UserDetails userDetails) {
-		User user = incidentService.findUserByEmail(userDetails.getUsername());
-		return ResponseEntity.ok(incidentService.incidentUserStat(user.getEmail()));
+		return ResponseEntity.ok(incidentService.incidentUserStat(userDetails.getUsername()));
 	}
 
 }
