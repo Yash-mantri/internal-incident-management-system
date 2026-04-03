@@ -7,5 +7,7 @@ import java.util.List;
 
 @Repository
 public interface IncidentAuditRepository extends JpaRepository<IncidentAudit, Long> {
-    List<IncidentAudit> findByIncidentIdOrderByCreatedAtAsc(Long incidentId);
+	List<IncidentAudit> findByIncidentIdOrderByCreatedAtAsc(Long incidentId);
+
+	List<IncidentAudit> findByIncident_IncidentKey(String id);
 }

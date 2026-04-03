@@ -12,7 +12,9 @@ public class AuditDtos {
         private String action;
         private String oldValue;
         private String newValue;
+        private Long changedBy;
         private String changedByName;
         private LocalDateTime createdAt;
     }
+   
 }

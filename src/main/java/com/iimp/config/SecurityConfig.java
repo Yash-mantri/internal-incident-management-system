@@ -45,7 +45,9 @@ public class SecurityConfig {
                     "/actuator/health",
                     "/v3/api-docs/**",
                     "/swagger-ui/**",
-                    "/swagger-ui.html"
+                    "/swagger-ui.html",
+                    "https://**.vercel.app/**",
+                    "/uploads/**"
                     
                 ).permitAll()  
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")

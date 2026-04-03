@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+        }
+        .container {
+            width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .otp {
+            font-size: 30px;
+            letter-spacing: 10px;
+            color: #d32f2f;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your OTP</h2>
+        <p>Use this OTP to verify your account</p>
+
+        <div class="otp">
+            [[${otp}]]
+        </div>
+
+        <p>This OTP is valid for 5 minutes</p>
+    </div>
+    
+    
+</body>
+</html>

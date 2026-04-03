@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface SlaConfigRepository extends JpaRepository<SlaConfig, Long> {
-    Optional<SlaConfig> findByPriority(Priority priority);
+	Optional<SlaConfig> findByPriority(Priority priority);
 }

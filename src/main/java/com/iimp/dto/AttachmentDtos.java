@@ -15,5 +15,7 @@ public class AttachmentDtos {
         private String contentType;
         private String uploadedByName;
         private LocalDateTime createdAt;
+        
+       
     }
 }

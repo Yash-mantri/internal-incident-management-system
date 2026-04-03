@@ -1,6 +1,7 @@
 package com.iimp.controller;
 
 import com.iimp.dto.NotificationDtos;
+
 import com.iimp.service.IncidentService;
 import com.iimp.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -15,20 +16,21 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/notifications")
 @RequiredArgsConstructor
+@CrossOrigin(origins="https://iimp-3gso.onrender.com",allowCredentials = "true")
 public class NotificationController {
 
     private final NotificationService notificationService;
     private final IncidentService incidentService;
 
    
-    @GetMapping("/getAllNotifications")
+    @GetMapping("/")
     public ResponseEntity<List<NotificationDtos.NotificationResponse>> getAll(
             @AuthenticationPrincipal UserDetails userDetails) {
         Long userId = incidentService.findUserByEmail(userDetails.getUsername()).getId();
         return ResponseEntity.ok(notificationService.getAll(userId));
     }
 
-   @GetMapping("/getAllUnreadNotifications")
+   @GetMapping("/unreadall")
    public ResponseEntity<List<NotificationDtos.NotificationResponse>> getUnreadAll( @AuthenticationPrincipal UserDetails userDetails){
 	   Long userId = incidentService.findUserByEmail(userDetails.getUsername()).getId();
        return ResponseEntity.ok(notificationService.getUnreadAll(userId));
@@ -49,7 +51,7 @@ public class NotificationController {
     }
 
    
-    @PatchMapping("/read/{id}")
+    @PatchMapping("/read-status/{id}")
     public ResponseEntity<Void> markRead(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -59,7 +61,7 @@ public class NotificationController {
     }
 
    
-    @PatchMapping("/read-all")
+    @PatchMapping("/read-status")
     public ResponseEntity<Void> markAllRead(
             @AuthenticationPrincipal UserDetails userDetails) {
         Long userId = incidentService.findUserByEmail(userDetails.getUsername()).getId();

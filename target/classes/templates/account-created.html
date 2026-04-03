@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+            font-family: Arial, sans-serif;
+        }
+
+        .email-container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: #1976d2;
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 20px;
+            color: #333;
+        }
+
+        .credentials {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .credentials p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="email-container">
+
+    <div class="header">
+         Account Created
+    </div>
+
+    <div class="content">
+        <p>Hello,</p>
+        <p>Your account has been successfully created by admin.</p>
+
+        <div class="credentials">
+            <p><b>Email:</b> [[${email}]]</p>
+            <p><b>Password:</b> [[${password}]]</p>
+        </div>
+
+
+
+        <p>Please login and change your password for security.</p>
+    </div>
+
+    <div class="footer">
+        © 2026 Pratiti Technologies | All rights reserved
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -7,6 +7,7 @@ import java.util.List;
 
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
-    List<Attachment> findByIncidentId(Long incidentId);
-    long countByIncidentId(Long incidentId);
+	List<Attachment> findByIncidentId(Long incidentId);
+
+	long countByIncident_IncidentKey(String incidentId);
 }

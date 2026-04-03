@@ -34,6 +34,19 @@ public class UserDtos {
         private boolean firstLogin;
         private LocalDateTime createdAt;
     }
+    
+    @Data @Builder
+    public static class UserInfo {
+        private Long id;
+        private String name;
+        private String email;
+        private String department;
+        private Role role;
+        private boolean active;
+        
+    }
+    
+    
 
     @Data
     public static class CreateUserRequest {

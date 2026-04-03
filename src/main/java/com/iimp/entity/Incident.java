@@ -1,11 +1,32 @@
 package com.iimp.entity;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import com.iimp.enums.IncidentStatus;
 import com.iimp.enums.Priority;
-import jakarta.persistence.*;
-import lombok.*;
+import com.iimp.enums.Role;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "incidents")
@@ -16,7 +37,7 @@ public class Incident {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Auto-generated key e.g. IIMP-2025-000001 (FR-09) */
+   
     @Column(name = "incident_key", nullable = false, unique = true)
     private String incidentKey;
 
@@ -48,6 +69,8 @@ public class Incident {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+    
+   
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sla_id")
@@ -59,6 +82,17 @@ public class Incident {
     @Column(name = "is_sla_breached", nullable = false)
     @Builder.Default
     private boolean isSlaBreached = false;
+    
+    @Column(name = "notified_to")
+    @Enumerated(EnumType.STRING)
+    private Role notifiedTo; 
+
+    @Column(name = "escalation_level")
+    @Builder.Default
+    private Integer escalationLevel = 0;
+
+    @Column(name = "last_notification_sent_at")
+    private LocalDateTime lastNotificationSentAt;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -71,11 +105,17 @@ public class Incident {
 
     @Column(name = "closed_at")
     private LocalDateTime closedAt;
+    
+    @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL)
+    private List<ResolutionNote> notes;
 
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (escalationLevel == null) {
+            escalationLevel = 0;
+        }
     }
 
     @PreUpdate

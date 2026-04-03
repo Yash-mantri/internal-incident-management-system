@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import com.iimp.dto.AuditDtos.AuditResponse;
+
 @Entity
 @Table(name = "incident_audit")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
@@ -38,4 +40,6 @@ public class IncidentAudit {
     public void prePersist() {
         createdAt = LocalDateTime.now();
     }
+
+	
 }

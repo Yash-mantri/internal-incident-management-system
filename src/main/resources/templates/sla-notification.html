@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .header h2 {
+            margin: 0;
+            color: #d32f2f;
+        }
+
+        .content {
+            margin-top: 20px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .incident-box {
+            background: #f9fafc;
+            border-left: 5px solid #d32f2f;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
+        .incident-box strong {
+            display: inline-block;
+            width: 140px;
+            color: #555;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: white;
+        }
+
+        .high { background-color: #d32f2f; }
+        .medium { background-color: #f57c00; }
+        .low { background-color: #388e3c; }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 18px;
+            background-color: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h2>🚨 SLA Alert Notification</h2>
+    </div>
+
+    <div class="content">
+        <p>Dear <b th:text="${recipientName}">User</b>,</p>
+
+        <p>
+            This is to inform you that the following incident has breached its SLA
+            and requires immediate attention.
+        </p>
+
+        <div class="incident-box">
+            <p><strong>Incident ID:</strong> <span th:text="${incidentKey}"></span></p>
+            <p><strong>Title:</strong> <span th:text="${title}"></span></p>
+            <p><strong>Priority:</strong> 
+                <span th:text="${priority}" 
+                      th:class="'badge ' + ${priority.toString().toLowerCase()}"></span>
+            </p>
+            <p><strong>Status:</strong> <span th:text="${status}"></span></p>
+            <p><strong>Escalation Level:</strong> <span th:text="${level}"></span></p>
+        </div>
+
+        <p>
+            Please take necessary action at the earliest to resolve this issue.
+        </p>
+
+        <a th:href="${dashboardUrl}" class="btn">View Incident</a>
+    </div>
+
+    <div class="footer">
+        <p>This is an automated message from IIMP System.</p>
+        <p>Do not reply to this email.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

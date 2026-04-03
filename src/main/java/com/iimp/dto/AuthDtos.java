@@ -1,6 +1,7 @@
 package com.iimp.dto;
 
-import com.iimp.entity.Otp;
+
+import com.iimp.enums.EventType;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -59,7 +60,7 @@ public class AuthDtos {
 		@Email
 		public String email;
 		@NotNull
-		public Otp.OtpPurpose purpose;
+		public EventType purpose;
 
 	}
 
@@ -68,18 +69,22 @@ public class AuthDtos {
 	@AllArgsConstructor
 	public static class OtpVerifyRequest {
 		@NotBlank
+		public String token;
+		@NotBlank
 		@Email
 		public String email;
 		@NotBlank
 		@Size(min = 6, max = 6)
 		public String otpCode;
 		@NotNull
-		public Otp.OtpPurpose purpose;
+		public EventType purpose;
 	}
 	
     @Data
     public static class ChangePasswordRequest {
     
+    	@NotBlank
+    	private String token;
     	@NotBlank
     	@Email
     	private String email;
@@ -90,12 +95,14 @@ public class AuthDtos {
         @NotBlank
         private String otpCode;
         @NotNull
-		public Otp.OtpPurpose purpose;
+		public EventType purpose;
        
     }
     
     @Data
     public static class ForgotPasswordRequest {
+    	@NotBlank
+    	private String token;
     	@NotBlank
     	@Email
     	private String email;
@@ -104,7 +111,7 @@ public class AuthDtos {
         @NotBlank
         private String otpCode;
         @NotNull
-		public Otp.OtpPurpose purpose;
+		public EventType purpose;
        
     }
 
