@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
 			throw new BadCredentialsException("Invalid email or password");
 		}
 
-		// Reset failed attempts on success
+		
 		user.setFailedLoginAttempts(0);
 		user.setLockedUntil(null);
 		userRepository.save(user);
